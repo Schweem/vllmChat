@@ -27,7 +27,7 @@ def handle_commands(prompt, chat_history)->None:
             case "/q":
                 exit()
             case "/p":
-                print(f"Temperature: {MODEL_TEMP}\n Top P: {TOP_P}")
+                print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
             case "help":
                 help_menu(SPECIAL_CHARS)
     except Exception as e:
