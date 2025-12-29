@@ -1,7 +1,7 @@
 # author : Seamus Jackson 
 
 # Simple vLLM test implementation
-# Loads facebook opt-125m into a simple, 
+# Loads facebook gemma3-1b-it into a simple, 
 # conversational chat-like interface.
 from vllm import LLM, SamplingParams
 
