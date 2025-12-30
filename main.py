@@ -35,7 +35,8 @@ def chat(llm, sampling_params, chat_history)->None:
             #prompt = str(chat_history) + "\n\n user prompt:" + prompt
             store_message("user", prompt)
             
-            outputs = llm.generate(prompt, sampling_params)
+            #outputs = llm.generate(prompt, sampling_params)
+            outputs = llm.chat(chat_history, sampling_params)
             for output in outputs:
                 prompt = output.prompt
                 generated_text = output.outputs[0].text
@@ -54,7 +55,7 @@ def main()->None:
     try:
         # model params 
         sampling_params = SamplingParams(temperature=MODEL_TEMP, top_p=TOP_P)
-        llm = LLM(model=MODEL)
+        llm = LLM(model=MODEL, gpu_memory_utilization=0.5)
 
         # Initial chat entry, no longer a loop    
         chat(llm, sampling_params, chat_history)
