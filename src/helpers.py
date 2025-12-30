@@ -27,6 +27,7 @@ def handle_commands(prompt, chat_history):
                 write_log("Chat cleared")
                 print("History cleared")
             case "/q":
+                write_log("Shutting down now")
                 exit()
             case "/p":
                 print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
