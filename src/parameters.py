@@ -16,5 +16,7 @@ SPECIAL_CHARS = {
     "/h" : "History",
     "/c" : "Clear history",
     "/p" : "Model parameters",
+    "/logs" : "Print program logs",
+    "/models" : "Lists availible models from HF",
     "/q" : "Quit",
 }

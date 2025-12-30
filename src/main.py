@@ -20,7 +20,7 @@ def store_message(role : str, content)->None:
         chat_history.append(message)
 
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
 
 def chat(llm, sampling_params, chat_history)->None:
     """
@@ -37,6 +37,7 @@ def chat(llm, sampling_params, chat_history)->None:
             
         else:            
             #prompt = str(chat_history) + "\n\n user prompt:" + prompt
+            write_log("User chat message")
             store_message("user", prompt)
             
             #outputs = llm.generate(prompt, sampling_params)
@@ -47,18 +48,19 @@ def chat(llm, sampling_params, chat_history)->None:
                 
                 print(f"Response: {generated_text}")
                 store_message("model", generated_text)
+                write_log("Model chat message")
                 
             chat(llm, sampling_params, chat_history)
 
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
 
 def main()->None:
     """
     Entry point
     """
     try:
-        write_log("Boot")
+        write_log("Init")
         # model params 
         sampling_params = SamplingParams(temperature = MODEL_TEMP,
                                          top_p = TOP_P, 
@@ -71,7 +73,7 @@ def main()->None:
         chat(llm, sampling_params, chat_history)
 
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
 
 if __name__ == "__main__":
     main()

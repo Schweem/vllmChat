@@ -1,5 +1,7 @@
 from parameters import MODEL, MODEL_TEMP, TOP_P, SPECIAL_CHARS, SYSTEM_PROMPT
-from logger import write_log
+from logger import write_log, read_logs
+
+from huggingface_hub import scan_cache_dir
 
 def clear_chat()->list:
     """
@@ -9,8 +11,20 @@ def clear_chat()->list:
         chat_history=[{"role": "system", "content": SYSTEM_PROMPT}]
         return chat_history
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
         return[]
+    
+def list_models()->None:
+    try:
+        model_cache = scan_cache_dir()
+
+        count = 1
+        for repo in model_cache.repos:
+            if repo.repo_type == "model":
+                print(f"{count}. {repo.repo_id}")
+                count += 1
+    except Exception as e:
+        write_log(f"Error: {e}")
 
 def handle_commands(prompt, chat_history):
     """
@@ -27,16 +41,21 @@ def handle_commands(prompt, chat_history):
                 write_log("Chat cleared")
                 print("History cleared")
             case "/q":
-                write_log("Shutting down now")
+                write_log("Shutting down now.")
                 exit()
             case "/p":
                 print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
+            case "/models":
+                list_models()
+            case "/logs":
+                print("Displaying logs:\n")
+                read_logs()
             case "help":
                 help_menu(SPECIAL_CHARS)
                 
         return chat_history
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
 
 def help_menu(options)->None:
     """
@@ -46,5 +65,5 @@ def help_menu(options)->None:
         for k,v in options.items():
             print(f"{k}: {v}")
     except Exception as e:
-        print(f"Error: {e}")
+        write_log(f"Error: {e}")
     
