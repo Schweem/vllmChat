@@ -8,6 +8,7 @@ from vllm import LLM, SamplingParams
 # offload helpers to secondary files
 from helpers import handle_commands
 from parameters import SPECIAL_CHARS, MODEL_TEMP, TOP_P, MODEL, MAX_VRAM, SYSTEM_PROMPT, MAX_TOKENS
+from logger import write_log
 
 # TODO : Make this not a list
 # Init with system prompt now
@@ -17,6 +18,7 @@ def store_message(role : str, content)->None:
     try:
         message = {"role":role, "content":content}
         chat_history.append(message)
+
     except Exception as e:
         print(f"Error: {e}")
 
@@ -28,6 +30,7 @@ def chat(llm, sampling_params, chat_history)->None:
         prompt = input("Prompt: ")
 
         if prompt in SPECIAL_CHARS:
+            write_log(f"Entered command: {prompt}")
             chat_history = handle_commands(prompt, chat_history)
             
             chat(llm, sampling_params, chat_history)
@@ -46,6 +49,7 @@ def chat(llm, sampling_params, chat_history)->None:
                 store_message("model", generated_text)
                 
             chat(llm, sampling_params, chat_history)
+
     except Exception as e:
         print(f"Error: {e}")
 
@@ -54,6 +58,7 @@ def main()->None:
     Entry point
     """
     try:
+        write_log("Boot")
         # model params 
         sampling_params = SamplingParams(temperature = MODEL_TEMP,
                                          top_p = TOP_P, 
@@ -64,7 +69,9 @@ def main()->None:
 
         # Initial chat entry, no longer a loop    
         chat(llm, sampling_params, chat_history)
+
     except Exception as e:
         print(f"Error: {e}")
 
-main()
+if __name__ == "__main__":
+    main()

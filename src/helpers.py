@@ -1,11 +1,12 @@
-from parameters import MODEL, MODEL_TEMP, TOP_P, SPECIAL_CHARS
+from parameters import MODEL, MODEL_TEMP, TOP_P, SPECIAL_CHARS, SYSTEM_PROMPT
+from logger import write_log
 
 def clear_chat()->list:
     """
     Clears chat history
     """
     try:
-        chat_history=[]
+        chat_history=[{"role": "system", "content": SYSTEM_PROMPT}]
         return chat_history
     except Exception as e:
         print(f"Error: {e}")
@@ -23,6 +24,7 @@ def handle_commands(prompt, chat_history):
                 print(chat_history)
             case "/c":
                 chat_history = clear_chat()
+                write_log("Chat cleared")
                 print("History cleared")
             case "/q":
                 exit()

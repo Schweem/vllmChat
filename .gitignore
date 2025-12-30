@@ -1,2 +1,6 @@
+# python env
 venv
 venv/
+
+# logging files
+status.log
