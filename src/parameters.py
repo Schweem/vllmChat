@@ -20,3 +20,5 @@ SPECIAL_CHARS = {
     "/models" : "Lists availible models from HF",
     "/q" : "Quit",
 }
+
+LOG_FILE = "status.log"

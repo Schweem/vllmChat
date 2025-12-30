@@ -18,6 +18,7 @@ def store_message(role : str, content)->None:
     try:
         message = {"role":role, "content":content}
         chat_history.append(message)
+        write_log(f"{role} - message stored : {content[:5]}...")
 
     except Exception as e:
         write_log(f"Error: {e}")
@@ -29,18 +30,18 @@ def chat(llm, sampling_params, chat_history)->None:
     try:
         prompt = input("Prompt: ")
 
+        # Handle commands
         if prompt in SPECIAL_CHARS:
             write_log(f"Entered command: {prompt}")
             chat_history = handle_commands(prompt, chat_history)
             
             chat(llm, sampling_params, chat_history)
-            
+
+        # Otherwise its just a message exchange
         else:            
-            #prompt = str(chat_history) + "\n\n user prompt:" + prompt
             write_log("User chat message")
             store_message("user", prompt)
             
-            #outputs = llm.generate(prompt, sampling_params)
             outputs = llm.chat(chat_history, sampling_params)
             for output in outputs:
                 prompt = output.prompt

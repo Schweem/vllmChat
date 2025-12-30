@@ -15,6 +15,9 @@ def clear_chat()->list:
         return[]
     
 def list_models()->None:
+    """
+    Lists availible cached huggingface models
+    """
     try:
         model_cache = scan_cache_dir()
 
@@ -23,6 +26,8 @@ def list_models()->None:
             if repo.repo_type == "model":
                 print(f"{count}. {repo.repo_id}")
                 count += 1
+
+        write_log("Model query")
     except Exception as e:
         write_log(f"Error: {e}")
 
@@ -35,7 +40,11 @@ def handle_commands(prompt, chat_history):
     try:
         match prompt:
             case "/h":
-                print(chat_history)
+                #print(chat_history)
+                for message in chat_history:
+                    role = message.get("role", "N/A")
+                    content = message.get("content", "N/A")
+                    print(f"{role}: {content}")
             case "/c":
                 chat_history = clear_chat()
                 write_log("Chat cleared")

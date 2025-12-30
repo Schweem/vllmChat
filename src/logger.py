@@ -2,20 +2,20 @@ import sys
 import os
 
 from datetime import datetime
+from parameters import LOG_FILE
 
-LOG_FILE = "status.log"
 
 def write_log(msg : str)->None:
     """
     Writing my own logging stuff for no good reason
     """
     try:
-        print(f"Logging: {msg}")
+        print(f"--- Logging: {msg} ---")
         with open(LOG_FILE, "a") as file:
             file.write(str(datetime.now()) + " : " + msg + "\n")
 
     except Exception as e:
-        print(f"Error logging: {e}")
+        print(f"!!! Error logging: {e} !!!")
 
 def read_logs()->None:
     """
@@ -23,10 +23,10 @@ def read_logs()->None:
     Good for passing to LLM context or just viewing
     """
     try:
-        print("Pulling in logs...")
+        print("--- Pulling in logs ---")
         with open(LOG_FILE, "r") as file:
             contents = file.read()
             print(contents)
 
     except Exception as e:
-        print(f"Error reading in logs: {e}")
+        print(f"!!! Error reading in logs: {e} !!!")
