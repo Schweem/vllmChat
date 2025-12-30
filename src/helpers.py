@@ -11,7 +11,7 @@ def clear_chat()->list:
         print(f"Error: {e}")
         return[]
 
-def handle_commands(prompt, chat_history)->None:
+def handle_commands(prompt, chat_history):
     """
     Runs different commands
     """
@@ -30,6 +30,8 @@ def handle_commands(prompt, chat_history)->None:
                 print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
             case "help":
                 help_menu(SPECIAL_CHARS)
+                
+        return chat_history
     except Exception as e:
         print(f"Error: {e}")
 

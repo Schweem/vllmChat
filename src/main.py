@@ -7,10 +7,11 @@ from vllm import LLM, SamplingParams
 
 # offload helpers to secondary files
 from helpers import handle_commands
-from parameters import SPECIAL_CHARS, MODEL_TEMP, TOP_P, MODEL
+from parameters import SPECIAL_CHARS, MODEL_TEMP, TOP_P, MODEL, MAX_VRAM, SYSTEM_PROMPT, MAX_TOKENS
 
 # TODO : Make this not a list
-chat_history = []
+# Init with system prompt now
+chat_history = [{"role": "system", "content": SYSTEM_PROMPT},]
 
 def store_message(role : str, content)->None:
     try:
@@ -27,8 +28,8 @@ def chat(llm, sampling_params, chat_history)->None:
         prompt = input("Prompt: ")
 
         if prompt in SPECIAL_CHARS:
-            handle_commands(prompt, chat_history)
-
+            chat_history = handle_commands(prompt, chat_history)
+            
             chat(llm, sampling_params, chat_history)
             
         else:            
@@ -54,8 +55,12 @@ def main()->None:
     """
     try:
         # model params 
-        sampling_params = SamplingParams(temperature=MODEL_TEMP, top_p=TOP_P)
-        llm = LLM(model=MODEL, gpu_memory_utilization=0.5)
+        sampling_params = SamplingParams(temperature = MODEL_TEMP,
+                                         top_p = TOP_P, 
+                                         max_tokens = MAX_TOKENS)
+        
+        llm = LLM(model=MODEL, 
+                  gpu_memory_utilization=MAX_VRAM)
 
         # Initial chat entry, no longer a loop    
         chat(llm, sampling_params, chat_history)

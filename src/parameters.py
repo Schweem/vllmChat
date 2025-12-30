@@ -4,9 +4,12 @@
 
 MODEL_TEMP = 0.65
 TOP_P = 0.95
+MAX_VRAM = 0.5
+MAX_TOKENS = 250
 
 #MODEL= "facebook/opt-125m"
 MODEL= "google/gemma-3-1b-it"
+SYSTEM_PROMPT = "You are a helpful assistant. Answer helpfully and honestly."
 
 SPECIAL_CHARS = {
     "help" : "Show help menu",
