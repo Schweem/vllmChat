@@ -1,9 +1,12 @@
+# author : Seamus Jackson 
+
+# Simple logging backend for a paper trail
+
 import sys
 import os
 
 from datetime import datetime
 from parameters import LOG_FILE
-
 
 def write_log(msg : str)->None:
     """

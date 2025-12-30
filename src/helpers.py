@@ -1,3 +1,7 @@
+# author : Seamus Jackson 
+
+# Helper functions to be called elsewhere
+
 from parameters import MODEL, MODEL_TEMP, TOP_P, SPECIAL_CHARS, SYSTEM_PROMPT
 from logger import write_log, read_logs
 
@@ -10,6 +14,7 @@ def clear_chat()->list:
     try:
         chat_history=[{"role": "system", "content": SYSTEM_PROMPT}]
         return chat_history
+    
     except Exception as e:
         write_log(f"Error: {e}")
         return[]
@@ -27,7 +32,22 @@ def list_models()->None:
                 print(f"{count}. {repo.repo_id}")
                 count += 1
 
-        write_log("Model query")
+        write_log(f"Model query - count : {count}")
+
+    except Exception as e:
+        write_log(f"Error: {e}")
+
+def view_history(chat_history)->None:
+    """
+    Displays message history in a human-readable format
+    """
+    try:
+        count = 0
+        for message in chat_history:
+            role = message.get("role", "N/A")
+            content = message.get("content", "N/A")
+            print(f"{count}. {role}: {content}\n")
+
     except Exception as e:
         write_log(f"Error: {e}")
 
@@ -40,11 +60,7 @@ def handle_commands(prompt, chat_history):
     try:
         match prompt:
             case "/h":
-                #print(chat_history)
-                for message in chat_history:
-                    role = message.get("role", "N/A")
-                    content = message.get("content", "N/A")
-                    print(f"{role}: {content}")
+                view_history(chat_history)
             case "/c":
                 chat_history = clear_chat()
                 write_log("Chat cleared")
@@ -63,6 +79,7 @@ def handle_commands(prompt, chat_history):
                 help_menu(SPECIAL_CHARS)
                 
         return chat_history
+    
     except Exception as e:
         write_log(f"Error: {e}")
 
@@ -73,6 +90,7 @@ def help_menu(options)->None:
     try:
         for k,v in options.items():
             print(f"{k}: {v}")
+            
     except Exception as e:
         write_log(f"Error: {e}")
     

@@ -1,3 +1,5 @@
+# author : Seamus Jackson 
+
 # Model params
 # Kinda weird in its own python file
 # we will see what happens, its clean

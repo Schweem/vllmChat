@@ -3,6 +3,7 @@
 # Simple vLLM test implementation
 # Loads facebook gemma3-1b-it into a simple, 
 # conversational chat-like interface.
+
 from vllm import LLM, SamplingParams
 
 # offload helpers to secondary files
@@ -15,10 +16,15 @@ from logger import write_log
 chat_history = [{"role": "system", "content": SYSTEM_PROMPT},]
 
 def store_message(role : str, content)->None:
+    """
+    Writes message to running history
+    Currently in memory, will become DB interaction
+    for long-term persistence
+    """
     try:
         message = {"role":role, "content":content}
         chat_history.append(message)
-        write_log(f"{role} - message stored : {content[:5]}...")
+        write_log(f"{role} - message stored : {content[:10]} {"..." if len(content) > 10 else "."}")
 
     except Exception as e:
         write_log(f"Error: {e}")
