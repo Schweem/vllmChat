@@ -4,6 +4,7 @@
 # Loads facebook gemma3-1b-it into a simple, 
 # conversational chat-like interface.
 
+# main vllm imports
 from vllm import LLM, SamplingParams
 
 # offload helpers to secondary files
@@ -15,7 +16,7 @@ from logger import write_log
 # Init with system prompt now
 chat_history = [{"role": "system", "content": SYSTEM_PROMPT},]
 
-def store_message(role : str, content)->None:
+def store_message(role : str, content) -> None:
     """
     Writes message to running history
     Currently in memory, will become DB interaction
@@ -29,7 +30,7 @@ def store_message(role : str, content)->None:
     except Exception as e:
         write_log(f"Error: {e}")
 
-def chat(llm, sampling_params, chat_history)->None:
+def chat(llm, sampling_params, chat_history) -> None:
     """
     Main chat method
     """
@@ -62,7 +63,7 @@ def chat(llm, sampling_params, chat_history)->None:
     except Exception as e:
         write_log(f"Error: {e}")
 
-def main()->None:
+def main() -> None:
     """
     Entry point
     """

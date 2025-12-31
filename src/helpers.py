@@ -7,7 +7,7 @@ from logger import write_log, read_logs
 
 from huggingface_hub import scan_cache_dir
 
-def clear_chat()->list:
+def clear_chat() -> list:
     """
     Clears chat history
     """
@@ -19,7 +19,7 @@ def clear_chat()->list:
         write_log(f"Error: {e}")
         return[]
     
-def list_models()->None:
+def list_models() -> None:
     """
     Lists availible cached huggingface models
     """
@@ -37,7 +37,7 @@ def list_models()->None:
     except Exception as e:
         write_log(f"Error: {e}")
 
-def view_history(chat_history)->None:
+def view_history(chat_history) -> None:
     """
     Displays message history in a human-readable format
     """
@@ -47,6 +47,7 @@ def view_history(chat_history)->None:
             role = message.get("role", "N/A")
             content = message.get("content", "N/A")
             print(f"{count}. {role}: {content}\n")
+            count += 1
 
     except Exception as e:
         write_log(f"Error: {e}")
@@ -83,7 +84,7 @@ def handle_commands(prompt, chat_history):
     except Exception as e:
         write_log(f"Error: {e}")
 
-def help_menu(options)->None:
+def help_menu(options) -> None:
     """
     displays command options
     """

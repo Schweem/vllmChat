@@ -4,16 +4,20 @@
 # Kinda weird in its own python file
 # we will see what happens, its clean
 
-MODEL_TEMP = 0.65
-TOP_P = 0.95
-MAX_VRAM = 0.5
-MAX_TOKENS = 250
+# main model params
+MODEL_TEMP : float = 0.65
+TOP_P : float = 0.95
+MAX_VRAM : float = 0.5
+MAX_TOKENS : int = 250
 
-#MODEL= "facebook/opt-125m"
-MODEL= "google/gemma-3-1b-it"
-SYSTEM_PROMPT = "You are a helpful assistant. Answer helpfully and honestly."
+# model to be first loaded
+MODEL : str = "google/gemma-3-1b-it"
 
-SPECIAL_CHARS = {
+# models internal dialouge at birth
+SYSTEM_PROMPT : str = "You are a helpful assistant. Answer helpfully and honestly."
+
+# cases to be treated as commands
+SPECIAL_CHARS : dict = {
     "help" : "Show help menu",
     "/h" : "History",
     "/c" : "Clear history",
@@ -23,4 +27,5 @@ SPECIAL_CHARS = {
     "/q" : "Quit",
 }
 
-LOG_FILE = "status.log"
+# name of output file for logging
+LOG_FILE : str = "status.log"
