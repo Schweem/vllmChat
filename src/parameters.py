@@ -25,6 +25,8 @@ SPECIAL_CHARS : dict = {
     "/logs" : "Print program logs",
     "/models" : "Lists availible models from HF",
     "/q" : "Quit",
+    "bye" : "Alternate quit",
+    "quit" : "Alternate, alternate, quit"
 }
 
 # name of output file for logging

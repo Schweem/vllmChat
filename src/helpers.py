@@ -34,7 +34,6 @@ def list_models() -> None:
                 count += 1
 
         write_log(f"Model query - count : {count}")
-
     except Exception as e:
         write_log(f"Error: {e}")
 
@@ -47,6 +46,7 @@ def view_history(chat_history) -> None:
     """
     try:
         count : int = 0
+
         for message in chat_history:
             role = message.get("role", "N/A")
             content = message.get("content", "N/A")
@@ -76,17 +76,19 @@ def handle_commands(prompt, chat_history):
                 chat_history = clear_chat()
                 write_log("Chat cleared")
                 print("History cleared")
-            case "/q":
+            case "/q" | "quit" | "bye":
                 write_log("Bye.", 3)
                 exit()
             case "/p":
+                write_log(f"Checked settings")
                 print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
             case "/models":
                 list_models()
             case "/logs":
-                print("Displaying logs:\n")
+                write_log(f"Checked logs")
                 read_logs()
             case "help":
+                write_log(f"Checked settings")
                 help_menu(SPECIAL_CHARS)
                 
         return chat_history
@@ -107,4 +109,3 @@ def help_menu(options) -> None:
             
     except Exception as e:
         write_log(f"Error: {e}")
-    
