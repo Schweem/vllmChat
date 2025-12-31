@@ -9,7 +9,8 @@ from huggingface_hub import scan_cache_dir
 
 def clear_chat() -> list:
     """
-    Clears chat history
+    Clears chat history to fresh state. 
+    Retains system prompt.
     """
     try:
         chat_history=[{"role": "system", "content": SYSTEM_PROMPT}]
@@ -26,7 +27,7 @@ def list_models() -> None:
     try:
         model_cache = scan_cache_dir()
 
-        count = 1
+        count : int = 0
         for repo in model_cache.repos:
             if repo.repo_type == "model":
                 print(f"{count}. {repo.repo_id}")
@@ -40,14 +41,19 @@ def list_models() -> None:
 def view_history(chat_history) -> None:
     """
     Displays message history in a human-readable format
+
+    ---
+    - chat_history - list object containing chat message dictionaries
     """
     try:
-        count = 0
+        count : int = 0
         for message in chat_history:
             role = message.get("role", "N/A")
             content = message.get("content", "N/A")
+
             print(f"{count}. {role}: {content}\n")
             count += 1
+        write_log(f"{count} {"messages" if count > 1 else "message"} retrieved", 2)
 
     except Exception as e:
         write_log(f"Error: {e}")
@@ -55,6 +61,10 @@ def view_history(chat_history) -> None:
 def handle_commands(prompt, chat_history):
     """
     Runs different commands
+
+    ---
+    - prompt - input message string 
+    - chat_history - list object containing chat message dictionaries
     """
     # different commands
     # TODO : More elegant handling here 
@@ -67,7 +77,7 @@ def handle_commands(prompt, chat_history):
                 write_log("Chat cleared")
                 print("History cleared")
             case "/q":
-                write_log("Shutting down now.")
+                write_log("Bye.", 3)
                 exit()
             case "/p":
                 print(f"Model: {MODEL}\nTemperature: {MODEL_TEMP}\nTop P: {TOP_P}")
@@ -87,6 +97,9 @@ def handle_commands(prompt, chat_history):
 def help_menu(options) -> None:
     """
     displays command options
+
+    ---
+    - options - list of values to be displayed
     """
     try:
         for k,v in options.items():

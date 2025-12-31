@@ -16,11 +16,15 @@ from logger import write_log
 # Init with system prompt now
 chat_history = [{"role": "system", "content": SYSTEM_PROMPT},]
 
-def store_message(role : str, content) -> None:
+def store_message(role : str, content : str) -> None:
     """
     Writes message to running history
     Currently in memory, will become DB interaction
     for long-term persistence
+
+    ---
+    - role - user, assistant, or system (string)
+    - content - string contents
     """
     try:
         message = {"role":role, "content":content}
@@ -33,6 +37,11 @@ def store_message(role : str, content) -> None:
 def chat(llm, sampling_params, chat_history) -> None:
     """
     Main chat method
+
+    ---
+    - llm - vLLM langauge model object
+    - sampling_params - vLLM sampling parameters object
+    - chat_history - list, contains chat message dictionaries
     """
     try:
         prompt = input("Prompt: ")
@@ -65,7 +74,8 @@ def chat(llm, sampling_params, chat_history) -> None:
 
 def main() -> None:
     """
-    Entry point
+    Entry point. Initializes model and sampling params. 
+    Starts first chat turn. 
     """
     try:
         write_log("Init")

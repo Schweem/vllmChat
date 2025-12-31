@@ -11,6 +11,11 @@ from parameters import LOG_FILE
 class Levels:
     """
     ANSI escape codes for logging levels
+
+    ---
+    1. Green  | Standard / success
+    2. Yellow | Notice / highlight
+    3. Red    | Warning / error
     """
     GREEN = '\033[92m'    # 1
     YELLOW = '\033[93m'   # 2
@@ -20,6 +25,12 @@ class Levels:
 def write_log(msg : str, level : int = 1) -> None:
     """
     Writing my own logging stuff for no good reason
+    
+    ---
+    Levels:
+        1 - Green
+        2 - Yellow
+        3 - Red
     """
     match level:
         case 1:
