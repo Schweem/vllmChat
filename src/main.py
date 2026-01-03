@@ -8,7 +8,7 @@
 from vllm import LLM, SamplingParams
 
 # offload helpers to secondary files
-from helpers import handle_commands
+from helpers import handle_commands, abbreviate
 from parameters import SPECIAL_CHARS, MODEL_TEMP, TOP_P, MODEL, MAX_VRAM, SYSTEM_PROMPT, MAX_TOKENS
 from logger import write_log
 
@@ -29,7 +29,7 @@ def store_message(role : str, content : str) -> None:
     try:
         message = {"role":role, "content":content}
         chat_history.append(message)
-        write_log(f"{role} - message stored : {content[:10]} {"..." if len(content) > 10 else "."}")
+        write_log(f"{role} - message stored : {abbreviate(content)}")
 
     except Exception as e:
         write_log(f"Error: {e}")

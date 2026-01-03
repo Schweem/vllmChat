@@ -109,3 +109,10 @@ def help_menu(options) -> None:
             
     except Exception as e:
         write_log(f"Error: {e}")
+
+def abbreviate(content : str) -> str:
+    try:
+        return f"{content[:10]} {"..." if len(content) > 10 else "."}"
+    except Exception as e:
+        print(f"Error: {e}")
+        return f"{e}"
